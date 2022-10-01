@@ -11,103 +11,83 @@
  *
  * This software is licensed under terms that can be found in the LICENSE file
  * in the root directory of this software component.
- * If no LICENSE file comes with this software; it is provided AS-IS.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
  *
  ******************************************************************************
  */
 
 #include <stdint.h>
 
-#if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized; but the project is compiling for an FPU. Please initialize the FPU before use."
-#endif
+#define P5 5
+#define __IO volatile
 
-typedef struct GPIOx_t {
-	volatile uint32_t GPIOx_MODER;
-	volatile uint32_t GPIOx_OTYPER;
-	volatile uint32_t GPIOx_OSPEEDR;
-	volatile uint32_t GPIOx_PUPDR;
-	volatile uint32_t GPIOx_IDR;
-	volatile uint32_t GPIOx_ODR;
-	volatile uint32_t GPIOx_BSRR;
-	volatile uint32_t GPIOx_LCKR;
-	volatile uint32_t GPIOx_AFRL;
-	volatile uint32_t GPIOx_AFRH;
-	volatile uint32_t GPIOx_BRR;
-} GPIOx_t;
 
-typedef struct RCC_t {
-	volatile uint32_t CR; /*!< RCC clock control register,                                              Address offset: 0x00 */
-	volatile uint32_t ICSCR; /*!< RCC internal clock sources calibration register,                         Address offset: 0x04 */
-	volatile uint32_t CFGR; /*!< RCC clock configuration register,                                        Address offset: 0x08 */
-	volatile uint32_t PLLCFGR; /*!< RCC system PLL configuration register,                                   Address offset: 0x0C */
-	volatile uint32_t PLLSAI1CFGR; /*!< RCC PLL SAI1 configuration register,                                     Address offset: 0x10 */
-	volatile uint32_t RESERVED; /*!< Reserved,                                                                Address offset: 0x14 */
-	volatile uint32_t CIER; /*!< RCC clock interrupt enable register,                                     Address offset: 0x18 */
-	volatile uint32_t CIFR; /*!< RCC clock interrupt flag register,                                       Address offset: 0x1C */
-	volatile uint32_t CICR; /*!< RCC clock interrupt clear register,                                      Address offset: 0x20 */
-	volatile uint32_t RESERVED0; /*!< Reserved,                                                                Address offset: 0x24 */
-	volatile uint32_t AHB1RSTR; /*!< RCC AHB1 peripheral reset register,                                      Address offset: 0x28 */
-	volatile uint32_t AHB2RSTR; /*!< RCC AHB2 peripheral reset register,                                      Address offset: 0x2C */
-	volatile uint32_t AHB3RSTR; /*!< RCC AHB3 peripheral reset register,                                      Address offset: 0x30 */
-	volatile uint32_t RESERVED1; /*!< Reserved,                                                                Address offset: 0x34 */
-	volatile uint32_t APB1RSTR1; /*!< RCC APB1 peripheral reset register 1,                                    Address offset: 0x38 */
-	volatile uint32_t APB1RSTR2; /*!< RCC APB1 peripheral reset register 2,                                    Address offset: 0x3C */
-	volatile uint32_t APB2RSTR; /*!< RCC APB2 peripheral reset register,                                      Address offset: 0x40 */
-	volatile uint32_t RESERVED2; /*!< Reserved,                                                                Address offset: 0x44 */
-	volatile uint32_t AHB1ENR; /*!< RCC AHB1 peripheral clocks enable register,                              Address offset: 0x48 */
-	volatile uint32_t AHB2ENR; /*!< RCC AHB2 peripheral clocks enable register,                              Address offset: 0x4C */
-	volatile uint32_t AHB3ENR; /*!< RCC AHB3 peripheral clocks enable register,                              Address offset: 0x50 */
-	volatile uint32_t RESERVED3; /*!< Reserved,                                                                Address offset: 0x54 */
-	volatile uint32_t APB1ENR1; /*!< RCC APB1 peripheral clocks enable register 1,                            Address offset: 0x58 */
-	volatile uint32_t APB1ENR2; /*!< RCC APB1 peripheral clocks enable register 2,                            Address offset: 0x5C */
-	volatile uint32_t APB2ENR; /*!< RCC APB2 peripheral clocks enable register,                              Address offset: 0x60 */
-	volatile uint32_t RESERVED4; /*!< Reserved,                                                                Address offset: 0x64 */
-	volatile uint32_t AHB1SMENR; /*!< RCC AHB1 peripheral clocks enable in sleep and stop modes register,      Address offset: 0x68 */
-	volatile uint32_t AHB2SMENR; /*!< RCC AHB2 peripheral clocks enable in sleep and stop modes register,      Address offset: 0x6C */
-	volatile uint32_t AHB3SMENR; /*!< RCC AHB3 peripheral clocks enable in sleep and stop modes register,      Address offset: 0x70 */
-	volatile uint32_t RESERVED5; /*!< Reserved,                                                                Address offset: 0x74 */
-	volatile uint32_t APB1SMENR1; /*!< RCC APB1 peripheral clocks enable in sleep mode and stop modes register 1, Address offset: 0x78 */
-	volatile uint32_t APB1SMENR2; /*!< RCC APB1 peripheral clocks enable in sleep mode and stop modes register 2, Address offset: 0x7C */
-	volatile uint32_t APB2SMENR; /*!< RCC APB2 peripheral clocks enable in sleep mode and stop modes register, Address offset: 0x80 */
-	volatile uint32_t RESERVED6; /*!< Reserved,                                                                Address offset: 0x84 */
-	volatile uint32_t CCIPR; /*!< RCC peripherals independent clock configuration register,                Address offset: 0x88 */
-	volatile uint32_t RESERVED7; /*!< Reserved,                                                                Address offset: 0x8C */
-	volatile uint32_t BDCR; /*!< RCC backup domain control register,                                      Address offset: 0x90 */
-	volatile uint32_t CSR; /*!< RCC clock control & status register,                                     Address offset: 0x94 */
-	volatile uint32_t CRRCR; /*!< RCC clock recovery RC register,                                          Address offset: 0x98 */
-} RCC_t;
+typedef struct RCC_t{
+	__IO uint32_t RCC_CR;
+	__IO uint32_t RCC_PLLCFGT;
+	__IO uint32_t RCC_CFGR;
+	__IO uint32_t RCC_CIR;
+	__IO uint32_t RCC_AHB1RSTR;
+	__IO uint32_t RCC_AHB2RSTR;
+	__IO uint32_t res1[2];
+	__IO uint32_t RCC_APB1RSTR;
+	__IO uint32_t RCC_APB2RSTR;
+	__IO uint32_t res2[2];
+	__IO uint32_t RCC_AHB1ENR;
+	__IO uint32_t RCC_AHB2ENR;
+	__IO uint32_t res3[2];
+	__IO uint32_t RCC_APB1ENR;
+	__IO uint32_t RCC_APB2ENR;
+	__IO uint32_t res4[2];
+	__IO uint32_t RCC_AHB1LPENR;
+	__IO uint32_t RCC_AHB2LPENR;
+	__IO uint32_t res5[2];
+	__IO uint32_t RCC_APB1LPENR;
+	__IO uint32_t RCC_APB2LPENR;
+	__IO uint32_t res6[2];
+	__IO uint32_t RCC_BDCR;
+	__IO uint32_t RCC_CSR;
+	__IO uint32_t res7[2];
+	__IO uint32_t RCC_SSCGR;
+	__IO uint32_t RCC_PLLI2SCFGR;
+	__IO uint32_t res8;
+	__IO uint32_t RCC_DCKCFGR;
+}RCC_t;
 
-RCC_t *const RCC = (RCC_t*) 0x40021000;
-GPIOx_t *const GPIOB = (GPIOx_t*) 0x48000400;
+typedef struct GPIOx_t{
+	__IO uint32_t GPIOx_MODER; 		//0x00
+	__IO uint32_t GPIOx_OTYPER;		//0x04
+	__IO uint32_t GPIOx_OSPEEDER;	//0x08
+	__IO uint32_t GPIOx_PUPDR;		//0x0C
+	__IO uint32_t GPIOx_IDR;			//0x10
+	__IO uint32_t GPIOx_ODR;			//0x14
+	__IO uint32_t GPIOx_BSRR;		//0x18
+	__IO uint32_t GPIOx_LCKR;
+	__IO uint32_t GPIOx_AFRL;
+	__IO uint32_t GPIOx_AFRH;
+}GPIOx_t;
 
-void GPIOB_init() {
-	// Enable GPIOB
-	RCC->AHB2ENR |= (1 << 1);
-	// Set PB3 as OUTPUT
-	GPIOB->GPIOx_MODER &= ~(3 << 6);
-	GPIOB->GPIOx_MODER |= (1 << 6);
-}
-
-void wait_ms(int time_ms) {
-	for (volatile int i = 0; i < time_ms; i++) {
-		for (volatile int j = 0; j < 16000; j++)
-			;
+void wait_ms(int time){
+	for(volatile int i = 0; i < time; i++){
+		for(volatile int j = 0; j < 1600; j++);
 	}
 }
-void GPIOB_blink() {
-	GPIOB->GPIOx_ODR |= (1 << 3);
-	wait_ms(10);
-	GPIOB->GPIOx_ODR &= ~(1 << 3);
-	wait_ms(10);
-}
 
-int main(void) {
-	GPIOB_init();
+GPIOx_t * const GPIOA = (GPIOx_t *)0x40020000;
+GPIOx_t * const GPIOB = (GPIOx_t *)0x40020400;
+RCC_t   * const RCC   = (RCC_t   *)0x40023800;
 
-	for (;;) {
+int main(void)
+{
+	// Enable GPIOA
+	RCC->RCC_AHB1ENR |= 1;
 
-		GPIOB_blink();
+	// Set GPIOA as OUTPUT
+	GPIOA->GPIOx_MODER &= ~(3 << (P5 * 2));
+	GPIOA->GPIOx_MODER |=  (1 << (P5 * 2));
+
+	for(;;){
+		GPIOA->GPIOx_ODR ^= (1 << P5);
+		wait_ms(50);
 	}
-
 }
