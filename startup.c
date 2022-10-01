@@ -10,7 +10,7 @@
 
 void Reset_handler(void);
 
-uint32_t  vector[] = {
+uint32_t  vector[] __attribute__((section(".isr_vector")))= {
   STACK_START,
   (uint32_t)&Reset_handler,
 };
