@@ -53,4 +53,23 @@ Section Command:
 * used to create different output sections in the final elf executable
 * used to instruct linker how to merge input sections to yield an output section
 * Controls the order in which different output sections appear in the elf file
-* Section command dictates placement
+* Section command dictates placement of section in a memory regions, i.e. linker place .text section in Flash memory region, which is described in memory
+* Syntax:
+Section
+{
+    /******************************************/
+    /** All .text section of all input files **/
+    /******************************************/
+    
+    /******************************************/
+    /** All .data section of all input files **/
+    /******************************************/
+
+    /*******************************************/
+    /** All .label section of all input files **/
+    /*******************************************/
+    .label:
+    {
+        // merge all .lable sections of all input files
+    }"address information for the linker"
+}
