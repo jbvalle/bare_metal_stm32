@@ -1,7 +1,8 @@
-#include <stdint.h>
+//#include <stdint.h>
 
-#define P5 5
-#define __IO volatile
+#define	  P5 	5
+#define	__IO 	volatile
+#define uint32_t int
 
 
 typedef struct RCC_t{
