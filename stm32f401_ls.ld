@@ -1,12 +1,12 @@
 ENTRY(Reset_handler)
 
-Memory
+MEMORY
 {
     FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 512K
     SRAM (rwx) : ORIGIN = 0x20000000, LENGTH = 96K
 }
 
-SECTION
+SECTIONS
 {
     .text :
     {
