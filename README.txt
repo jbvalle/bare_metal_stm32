@@ -80,4 +80,9 @@ Location Counter:
 * Can be used inside linker script to track and define boundaries of various sections
 * The location counter can be set to any specific value while writing linker script
 * Should only be used inside section command
-* Is incremented by the size of the output section
+* Is incremented by the size of the outputarm section
+
+Linker Script Symbols:
+* Name of an address
+* Symbol is not the same as a variable
+* The location counter always tracks the VMA
