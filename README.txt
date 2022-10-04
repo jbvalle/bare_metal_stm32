@@ -73,3 +73,11 @@ Section
         // merge all .lable sections of all input files
     }"address information for the linker"
 }
+
+Location Counter:
+* . - Symbol is called location Counter
+* The linker automatically updates the symbol with location address information
+* Can be used inside linker script to track and define boundaries of various sections
+* The location counter can be set to any specific value while writing linker script
+* Should only be used inside section command
+* Is incremented by the size of the output section

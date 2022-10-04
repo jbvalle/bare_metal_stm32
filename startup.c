@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-//SRAM1 96Kbytes starts at 0x2000 0000 - 0x2001 7FFF
+//SRAM1 96Kbytes starts at 0x2000 0000 - 0x2001 7FFF 
 #define SRAM_START 0x20000000U
 #define SRAM_SIZE (96 * 1024) //96KB
 #define SRAM_END ((SRAM_START) + (SRAM_SIZE))
