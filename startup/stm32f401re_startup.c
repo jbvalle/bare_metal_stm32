@@ -1,19 +1,23 @@
 #include <stdint.h>
 
-//SRAM1 96Kbytes starts at 0x2000 0000 - 0x2001 7FFF 
-#define SRAM_START 0x20000000U
-#define SRAM_SIZE (96 * 1024) //96KB
-#define SRAM_END ((SRAM_START) + (SRAM_SIZE))
 
-#define STACK_START SRAM_END
+/**********************/
+/** Global Variables **/
+/**********************/
 
 extern uint32_t _sbss;
 extern uint32_t _ebss;
 extern uint32_t _sdata;
 extern uint32_t _edata;
 extern uint32_t _etext;
+extern uint32_t _estack;
 
-int main(void);
+
+/*************************/
+/** Function Prototypes **/
+/*************************/
+
+extern int main(void);
 
 void Reset_handler          (void);
 void NMI_handler            (void)__attribute__((weak, alias("Default_handler")));
@@ -82,7 +86,84 @@ void I2C3_ER_handler                      (void)__attribute__((weak, alias("Defa
 void FPU_handler                          (void)__attribute__((weak, alias("Default_handler")));
 void SPI4_handler                         (void)__attribute__((weak, alias("Default_handler")));
 
-uint32_t  vector[] __attribute__((section(".isr_vector")))= {
+/****************************/
+/** Interrupt Vector Table **/
+/****************************/
+__attribute__ ((section(".isr_vector")))
+void (* const g_pfnVectors[])(void) = {
+    ((void (*)(void))(&_estack)),
+    Reset_handler,
+    NMI_handler,
+    HardFault_handler,
+    MemManage_handler,
+    BusFault_handler,
+    UsuageFault_handler,
+    0,
+    0,
+    0,
+    0,
+    SVCall_handler,
+    DebugMonitor_handler,
+    0,
+    PendSV_handler,
+    Systick_handler,
+    WWDG_handler,
+    EXITI16_PVD__handler,
+    EXITI21_TAMP_STAMP_handler,
+    EXITI22_RTC_WKUP_handler,
+    FLASH_handler,
+    RCC_handler,
+    EXTI0_handler,
+    EXTI1_handler,
+    EXTI2_handler,
+    EXTI3_handler,
+    EXTI4_handler,
+    DMA1_Stream0_handler,
+    DMA1_Stream1_handler,
+    DMA1_Stream2_handler,
+    DMA1_Stream3_handler,
+    DMA1_Stream4_handler,
+    DMA1_Stream5_handler,
+    DMA1_Stream6_handler,
+    ADC_handler,
+    EXTI9_5__handler,
+    TIM1_BRK_TIM9_handler,
+    TIM1_UP_TIM10_handler,
+    TIM1_TRG_COM_TIM11_handler,
+    TIM2_handler,
+    TIM3_handler,
+    TIM4_handler,
+    I2C1_EV_handler,
+    I2C1_ER_handler,
+    I2C2_EV_handler,
+    I2C2_ER_handler,
+    SPI1_handler,
+    SPI2_handler,
+    UART1_handler,
+    UART2_handler,
+    EXTI17_RTC_Alarm_handler,
+    EXTI18_OTG_FS_WKUP_handler,
+    DMA1_Stream7_handler,
+    SDIO_handler,
+    TIM5_handler,
+    SPI3_handler,
+    DMA2_Stream0_handler,
+    DMA2_Stream1_handler,
+    DMA2_Stream2_handler,
+    DMA2_Stream3_handler,
+    DMA2_Stream4_handler,
+    OTG_FS_handler,
+    DMA2_Stream5_handler,
+    DMA2_Stream6_handler,
+    DMA2_Stream7_handler,
+    UART6_handler,
+    I2C3_EV_handler,
+    I2C3_ER_handler,
+    FPU_handler,
+    SPI4_handler,
+};
+/*
+uint32_t  vector[]= {
     STACK_START,
     (uint32_t)Reset_handler,
     (uint32_t)NMI_handler,
@@ -154,6 +235,7 @@ uint32_t  vector[] __attribute__((section(".isr_vector")))= {
     (uint32_t)FPU_handler,
     (uint32_t)SPI4_handler,
 };
+*/
 
 void Default_handler(void){
     for(;;);
