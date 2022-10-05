@@ -12,7 +12,7 @@ LOAD blink.o
 LOAD main.o
 LOAD startup.o
 
-.text           0x08000000      0x1e8
+.text           0x08000000      0x264
  *(.isr_vector)
  .isr_vector    0x08000000      0x118 startup.o
                 0x08000000                vector
@@ -23,7 +23,7 @@ LOAD startup.o
                 0x0800018c                blink
  .text          0x080001ac       0x1c main.o
                 0x080001ac                main
- .text          0x080001c8       0x12 startup.o
+ .text          0x080001c8       0x90 startup.o
                 0x080001c8                UART2_handler
                 0x080001c8                EXTI15_10_handler
                 0x080001c8                DMA1_Stream7_handler
@@ -92,33 +92,32 @@ LOAD startup.o
                 0x080001c8                Default_handler
                 0x080001ce                Reset_handler
  *(.rodata)
- *fill*         0x080001da        0x2 
- .rodata        0x080001dc        0xc blink.o
-                0x080001dc                GPIOA
-                0x080001e0                GPIOB
-                0x080001e4                RCC
-                0x080001e8                        . = ALIGN (0x4)
-                0x080001e8                        _etext = .
+ .rodata        0x08000258        0xc blink.o
+                0x08000258                GPIOA
+                0x0800025c                GPIOB
+                0x08000260                RCC
+                0x08000264                        . = ALIGN (0x4)
+                0x08000264                        _etext = .
 
-.glue_7         0x080001e8        0x0
- .glue_7        0x080001e8        0x0 linker stubs
+.glue_7         0x08000264        0x0
+ .glue_7        0x08000264        0x0 linker stubs
 
-.glue_7t        0x080001e8        0x0
- .glue_7t       0x080001e8        0x0 linker stubs
+.glue_7t        0x08000264        0x0
+ .glue_7t       0x08000264        0x0 linker stubs
 
-.vfp11_veneer   0x080001e8        0x0
- .vfp11_veneer  0x080001e8        0x0 linker stubs
+.vfp11_veneer   0x08000264        0x0
+ .vfp11_veneer  0x08000264        0x0 linker stubs
 
-.v4_bx          0x080001e8        0x0
- .v4_bx         0x080001e8        0x0 linker stubs
+.v4_bx          0x08000264        0x0
+ .v4_bx         0x08000264        0x0 linker stubs
 
-.iplt           0x080001e8        0x0
- .iplt          0x080001e8        0x0 blink.o
+.iplt           0x08000264        0x0
+ .iplt          0x08000264        0x0 blink.o
 
-.rel.dyn        0x080001e8        0x0
- .rel.iplt      0x080001e8        0x0 blink.o
+.rel.dyn        0x08000264        0x0
+ .rel.iplt      0x08000264        0x0 blink.o
 
-.data           0x20000000        0x4 load address 0x080001e8
+.data           0x20000000        0x4 load address 0x08000264
                 0x20000000                        _sdata = .
  *(.data)
  .data          0x20000000        0x0 blink.o
@@ -128,10 +127,10 @@ LOAD startup.o
                 0x20000004                        . = ALIGN (0x4)
                 0x20000004                        _edata = .
 
-.igot.plt       0x20000004        0x0 load address 0x080001ec
+.igot.plt       0x20000004        0x0 load address 0x08000268
  .igot.plt      0x20000004        0x0 blink.o
 
-.bss            0x20000004      0x194 load address 0x080001ec
+.bss            0x20000004      0x194 load address 0x08000268
                 0x20000004                        _sbss = .
  *(.bss)
  .bss           0x20000004        0x0 blink.o
