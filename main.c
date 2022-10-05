@@ -2,6 +2,7 @@
 
 volatile int var = 100;
 volatile int var2;
+volatile int arr[100];
 
 int main(void)
 {

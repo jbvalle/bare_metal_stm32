@@ -86,3 +86,8 @@ Linker Script Symbols:
 * Name of an address
 * Symbol is not the same as a variable
 * The location counter always tracks the VMA
+
+Important Commands:
+* arm-none-eabi-nm file.elf:
+    * For exploring symbols of program
+* arm-none-eabi-gcc -T linkerfile.ld -Wl,-Map=file.map -o file.exe *.o

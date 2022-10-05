@@ -1,0 +1,161 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x00080000         xr
+SRAM             0x20000000         0x00018000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD blink.o
+LOAD main.o
+LOAD startup.o
+
+.text           0x08000000      0x1e8
+ *(.isr_vector)
+ .isr_vector    0x08000000      0x118 startup.o
+                0x08000000                vector
+ *(.text)
+ .text          0x08000118       0x94 blink.o
+                0x08000118                wait_ms
+                0x08000154                blink_init
+                0x0800018c                blink
+ .text          0x080001ac       0x1c main.o
+                0x080001ac                main
+ .text          0x080001c8       0x12 startup.o
+                0x080001c8                UART2_handler
+                0x080001c8                EXTI15_10_handler
+                0x080001c8                DMA1_Stream7_handler
+                0x080001c8                UART1_handler
+                0x080001c8                TIM1_UP_TIM10_handler
+                0x080001c8                EXTI0_handler
+                0x080001c8                DMA1_Stream1_handler
+                0x080001c8                SDIO_handler
+                0x080001c8                NMI_handler
+                0x080001c8                DMA2_Stream3_handler
+                0x080001c8                TIM2_handler
+                0x080001c8                SPI3_handler
+                0x080001c8                TIM3_handler
+                0x080001c8                WWDG_handler
+                0x080001c8                UART6_handler
+                0x080001c8                SPI2_handler
+                0x080001c8                UsuageFault_handler
+                0x080001c8                SVCall_handler
+                0x080001c8                DMA2_Stream6_handler
+                0x080001c8                DebugMonitor_handler
+                0x080001c8                I2C3_ER_handler
+                0x080001c8                DMA1_Stream3_handler
+                0x080001c8                MemManage_handler
+                0x080001c8                SPI4_handler
+                0x080001c8                HardFault_handler
+                0x080001c8                DMA1_Stream5_handler
+                0x080001c8                FPU_handler
+                0x080001c8                DMA2_Stream5_handler
+                0x080001c8                EXITI21_TAMP_STAMP_handler
+                0x080001c8                EXTI18_OTG_FS_WKUP_handler
+                0x080001c8                RCC_handler
+                0x080001c8                Systick_handler
+                0x080001c8                EXTI2_handler
+                0x080001c8                DMA2_Stream1_handler
+                0x080001c8                I2C1_ER_handler
+                0x080001c8                EXTI9_5__handler
+                0x080001c8                EXTI17_RTC_Alarm_handler
+                0x080001c8                I2C2_EV_handler
+                0x080001c8                EXITI22_RTC_WKUP_handler
+                0x080001c8                EXTI3_handler
+                0x080001c8                DMA2_Stream0_handler
+                0x080001c8                FLASH_handler
+                0x080001c8                OTG_FS_handler
+                0x080001c8                DMA1_Stream4_handler
+                0x080001c8                I2C2_ER_handler
+                0x080001c8                TIM1_BRK_TIM9_handler
+                0x080001c8                TIM4_handler
+                0x080001c8                DMA1_Stream2_handler
+                0x080001c8                EXTI4_handler
+                0x080001c8                DMA1_Stream6_handler
+                0x080001c8                ADC_handler
+                0x080001c8                I2C1_EV_handler
+                0x080001c8                SPI1_handler
+                0x080001c8                DMA2_Stream4_handler
+                0x080001c8                PendSV_handler
+                0x080001c8                DMA2_Stream7_handler
+                0x080001c8                DMA1_Stream0_handler
+                0x080001c8                DMA2_Stream2_handler
+                0x080001c8                EXTI1_handler
+                0x080001c8                TIM1_TRG_COM_TIM11_handler
+                0x080001c8                TIM5_handler
+                0x080001c8                EXITI16_PVD__handler
+                0x080001c8                I2C3_EV_handler
+                0x080001c8                BusFault_handler
+                0x080001c8                TIM1_CC_handler
+                0x080001c8                Default_handler
+                0x080001ce                Reset_handler
+ *(.rodata)
+ *fill*         0x080001da        0x2 
+ .rodata        0x080001dc        0xc blink.o
+                0x080001dc                GPIOA
+                0x080001e0                GPIOB
+                0x080001e4                RCC
+                0x080001e8                        . = ALIGN (0x4)
+                0x080001e8                        _etext = .
+
+.glue_7         0x080001e8        0x0
+ .glue_7        0x080001e8        0x0 linker stubs
+
+.glue_7t        0x080001e8        0x0
+ .glue_7t       0x080001e8        0x0 linker stubs
+
+.vfp11_veneer   0x080001e8        0x0
+ .vfp11_veneer  0x080001e8        0x0 linker stubs
+
+.v4_bx          0x080001e8        0x0
+ .v4_bx         0x080001e8        0x0 linker stubs
+
+.iplt           0x080001e8        0x0
+ .iplt          0x080001e8        0x0 blink.o
+
+.rel.dyn        0x080001e8        0x0
+ .rel.iplt      0x080001e8        0x0 blink.o
+
+.data           0x20000000        0x4 load address 0x080001e8
+                0x20000000                        _sdata = .
+ *(.data)
+ .data          0x20000000        0x0 blink.o
+ .data          0x20000000        0x4 main.o
+                0x20000000                var
+ .data          0x20000004        0x0 startup.o
+                0x20000004                        . = ALIGN (0x4)
+                0x20000004                        _edata = .
+
+.igot.plt       0x20000004        0x0 load address 0x080001ec
+ .igot.plt      0x20000004        0x0 blink.o
+
+.bss            0x20000004      0x194 load address 0x080001ec
+                0x20000004                        _sbss = .
+ *(.bss)
+ .bss           0x20000004        0x0 blink.o
+ .bss           0x20000004      0x194 main.o
+                0x20000004                var2
+                0x20000008                arr
+ .bss           0x20000198        0x0 startup.o
+ *(COMMON)
+                0x20000198                        . = ALIGN (0x4)
+                0x20000198                        _ebss = .
+OUTPUT(main.elf elf32-littlearm)
+LOAD linker stubs
+
+.comment        0x00000000       0x4c
+ .comment       0x00000000       0x4c blink.o
+                                 0x4d (size before relaxing)
+ .comment       0x0000004c       0x4d main.o
+ .comment       0x0000004c       0x4d startup.o
+
+.ARM.attributes
+                0x00000000       0x2e
+ .ARM.attributes
+                0x00000000       0x2e blink.o
+ .ARM.attributes
+                0x0000002e       0x2e main.o
+ .ARM.attributes
+                0x0000005c       0x2e startup.o
