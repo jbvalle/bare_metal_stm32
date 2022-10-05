@@ -22,5 +22,5 @@ void blink_init(){
 
 void blink(){
 	GPIOA->GPIOx_ODR ^= (1 << P5);
-	wait_ms(500);
+	wait_ms(1000);
 }
